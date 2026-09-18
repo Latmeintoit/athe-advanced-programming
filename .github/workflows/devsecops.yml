@@ -1,0 +1,57 @@
+name: DevSecOps CI/CD Pipeline
+
+# =====================================================================
+# TASK 2: DevSecOps CI/CD Pipeline
+# This pipeline runs automatically whenever code is pushed to the repository.
+# It implements "Shift Left" by testing code for vulnerabilities immediately.
+# =====================================================================
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test-and-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # =====================================================================
+    # SCA (Software Composition Analysis) Stage
+    # Checks third-party libraries in requirements.txt for known vulnerabilities.
+    # =====================================================================
+    - name: Run SCA (Safety check)
+      run: |
+        safety check -r requirements.txt --full-report
+
+    # =====================================================================
+    # SAST (Static Application Security Testing) Stage
+    # Scans our own source code for common security issues (e.g., hardcoded passwords).
+    # =====================================================================
+    - name: Run SAST (Bandit scan)
+      run: |
+        bandit -r dataset_app/
+
+    # =====================================================================
+    # TASK 4: Automated Testing Stage
+    # Runs the pytest suite to ensure application logic is working.
+    # =====================================================================
+    - name: Run Automated Unit Tests (Pytest)
+      env:
+        PYTHONPATH: .
+      run: |
+        pytest dataset_app/tests/

@@ -1,0 +1,8 @@
+# Required for automated testing
+pytest==7.4.3
+
+# Required for DevSecOps SCA (Software Composition Analysis)
+safety==2.3.5
+
+# Required for DevSecOps SAST (Static Application Security Testing)
+bandit==1.7.5
