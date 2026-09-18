@@ -44,9 +44,8 @@ jobs:
     # =====================================================================
     - name: Run SAST (Bandit scan)
       run: |
-        # We use -x to exclude the tests folder, because test files naturally use 
-        # 'assert' statements which Bandit otherwise incorrectly flags as a security risk.
-        bandit -r dataset_app/ -x dataset_app/tests/
+        # We skip rule B101 (assert_used) because 'assert' is required for our unit tests.
+        bandit -r dataset_app/ -s B101
 
     # =====================================================================
     # TASK 4: Automated Testing Stage
