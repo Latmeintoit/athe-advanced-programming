@@ -5,4 +5,5 @@ pytest==9.0.3
 pip-audit==2.7.3
 
 # Required for DevSecOps SAST (Static Application Security Testing)
+pbr
 bandit==1.7.5
