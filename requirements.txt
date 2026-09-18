@@ -1,5 +1,5 @@
 # Required for automated testing
-pytest==7.4.3
+pytest==9.0.3
 
 # Required for DevSecOps SCA (Software Composition Analysis)
 pip-audit==2.7.3
