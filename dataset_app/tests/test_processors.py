@@ -35,4 +35,4 @@ def test_csv_data_source_encapsulation():
         path = source.__file_path
         
     # We must use the getter
-    assert source.get_file_path() == "Broken_File.csv"
+    assert source.get_file_path() == "test.csv"

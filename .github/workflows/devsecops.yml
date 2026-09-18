@@ -34,9 +34,9 @@ jobs:
     # SCA (Software Composition Analysis) Stage
     # Checks third-party libraries in requirements.txt for known vulnerabilities.
     # =====================================================================
-    - name: Run SCA (Safety check)
+    - name: Run SCA (Software Composition Analysis)
       run: |
-        safety check -r requirements.txt --full-report
+        pip-audit -r requirements.txt
 
     # =====================================================================
     # SAST (Static Application Security Testing) Stage
@@ -44,7 +44,9 @@ jobs:
     # =====================================================================
     - name: Run SAST (Bandit scan)
       run: |
-        bandit -r dataset_app/
+        # We use -x to exclude the tests folder, because test files naturally use 
+        # 'assert' statements which Bandit otherwise incorrectly flags as a security risk.
+        bandit -r dataset_app/ -x dataset_app/tests/
 
     # =====================================================================
     # TASK 4: Automated Testing Stage
